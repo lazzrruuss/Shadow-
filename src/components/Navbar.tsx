@@ -41,8 +41,18 @@ export const Navbar: React.FC<NavbarProps> = ({ onBuyClick, telegramUrl }) => {
           className="flex items-center gap-2.5 group select-none"
         >
           {/* Circular avatar with black border */}
-          <div className="w-10 h-10 rounded-full border-2 border-black bg-[#FFB52E] overflow-hidden shadow-[2px_2px_0px_#000] flex-shrink-0 flex items-center justify-center p-0.5">
-            <EmbeddedMascotAvatar size={34} />
+          <div className="w-10 h-10 rounded-full border-2 border-black bg-[#FFB52E] overflow-hidden shadow-[2px_2px_0px_#000] flex-shrink-0 flex items-center justify-center">
+            <img
+              src="/msgId1791989841121.jpg"
+              alt="SHADOW"
+              className="w-full h-full object-cover"
+              onError={(e) => {
+                const target = e.currentTarget;
+                if (!target.src.includes('mascot.jpg')) {
+                  target.src = '/mascot.jpg';
+                }
+              }}
+            />
           </div>
 
           {/* Yellow bold wordmark with black drop shadow */}

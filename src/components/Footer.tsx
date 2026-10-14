@@ -41,8 +41,18 @@ export const Footer: React.FC<FooterProps> = ({ contractAddress, telegramUrl }) 
           {/* Brand Info (col-span-5) */}
           <div className="md:col-span-5 flex flex-col items-start">
             <div className="flex items-center gap-2.5 mb-4">
-              <div className="w-10 h-10 rounded-full border-2 border-black bg-[#FFB52E] overflow-hidden shadow-[2px_2px_0px_#000] flex-shrink-0 flex items-center justify-center p-0.5">
-                <EmbeddedMascotAvatar size={34} />
+              <div className="w-10 h-10 rounded-full border-2 border-black bg-[#FFB52E] overflow-hidden shadow-[2px_2px_0px_#000] flex-shrink-0 flex items-center justify-center">
+                <img
+                  src="/msgId1791989841121.jpg"
+                  alt="SHADOW"
+                  className="w-full h-full object-cover"
+                  onError={(e) => {
+                    const target = e.currentTarget;
+                    if (!target.src.includes('mascot.jpg')) {
+                      target.src = '/mascot.jpg';
+                    }
+                  }}
+                />
               </div>
               <span className="font-heading text-3xl font-black text-[#FFB52E] tracking-wider drop-shadow-[2px_2px_0px_#000]">
                 SHADOW
