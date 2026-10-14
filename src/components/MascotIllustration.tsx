@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { EmbeddedMascot } from './EmbeddedMascot';
 
 interface MascotProps {
   className?: string;
@@ -13,21 +14,13 @@ export const MascotIllustration: React.FC<MascotProps> = ({
   customImageUrl,
   onImageLoaded,
 }) => {
-  // Candidate image paths to check
-  const candidateUrls = [
-    '/msgId1791989841121.jpg',
-    '/mascot.jpg',
-    '/grok_1791989972558.jpg',
-    '/grok_1791989973132.jpg',
-  ];
-
-  const [candidateIndex, setCandidateIndex] = useState<number>(0);
   const [imgSrc, setImgSrc] = useState<string>(
-    customImageUrl || candidateUrls[0]
+    customImageUrl || '/mascot.svg'
   );
+  const [hasError, setHasError] = useState<boolean>(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  // Check localStorage for any previously selected/uploaded mascot image
+  // Check localStorage for uploaded custom image
   useEffect(() => {
     if (typeof window !== 'undefined' && !customImageUrl) {
       const cached = localStorage.getItem('shadow_mascot_image');
@@ -40,6 +33,7 @@ export const MascotIllustration: React.FC<MascotProps> = ({
   useEffect(() => {
     if (customImageUrl) {
       setImgSrc(customImageUrl);
+      setHasError(false);
     }
   }, [customImageUrl]);
 
@@ -58,10 +52,11 @@ export const MascotIllustration: React.FC<MascotProps> = ({
         const result = event.target?.result as string;
         if (result) {
           setImgSrc(result);
+          setHasError(false);
           try {
             localStorage.setItem('shadow_mascot_image', result);
           } catch {
-            // storage quota fallback
+            // quota fallback
           }
           if (onImageLoaded) onImageLoaded(result);
         }
@@ -80,23 +75,16 @@ export const MascotIllustration: React.FC<MascotProps> = ({
         const result = event.target?.result as string;
         if (result) {
           setImgSrc(result);
+          setHasError(false);
           try {
             localStorage.setItem('shadow_mascot_image', result);
           } catch {
-            // storage quota fallback
+            // quota fallback
           }
           if (onImageLoaded) onImageLoaded(result);
         }
       };
       reader.readAsDataURL(file);
-    }
-  };
-
-  const handleImageError = () => {
-    if (candidateIndex + 1 < candidateUrls.length) {
-      const nextIndex = candidateIndex + 1;
-      setCandidateIndex(nextIndex);
-      setImgSrc(candidateUrls[nextIndex]);
     }
   };
 
@@ -106,7 +94,7 @@ export const MascotIllustration: React.FC<MascotProps> = ({
       onDragOver={(e) => e.preventDefault()}
       onDrop={handleDrop}
       onClick={() => fileInputRef.current?.click()}
-      title="SHADOW Mascot (Click or drop msgId1791989841121.jpg to update)"
+      title="SHADOW Mascot"
     >
       <input
         ref={fileInputRef}
@@ -116,15 +104,21 @@ export const MascotIllustration: React.FC<MascotProps> = ({
         onChange={handleFileChange}
       />
 
-      {/* Renders the EXACT mascot image without recreation */}
-      <div className="relative w-full flex items-center justify-center">
-        <img
-          src={imgSrc}
-          alt="SHADOW Mascot"
-          className="w-full h-auto object-contain block drop-shadow-[0_8px_0px_rgba(0,0,0,0.85)] filter rounded-2xl"
-          onError={handleImageError}
-        />
-      </div>
+      {/* Render the image, with instant inline SVG fallback if file fails */}
+      {!hasError ? (
+        <div className="relative w-full flex items-center justify-center">
+          <img
+            src={imgSrc}
+            alt="SHADOW Mascot"
+            className="w-full h-auto object-contain block drop-shadow-[0_8px_0px_rgba(0,0,0,0.85)] filter"
+            onError={() => setHasError(true)}
+          />
+        </div>
+      ) : (
+        <div className="relative w-full flex items-center justify-center">
+          <EmbeddedMascot />
+        </div>
+      )}
     </div>
   );
 };
