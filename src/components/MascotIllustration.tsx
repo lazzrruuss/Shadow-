@@ -18,10 +18,11 @@ export const MascotIllustration: React.FC<MascotProps> = ({
   isolateCharacter = true,
 }) => {
   const [imgSrc, setImgSrc] = useState<string>(
-    customImageUrl || '/grok_1791989973132.jpg'
+    customImageUrl || '/grok_1791989972558.jpg'
   );
   const [processedSrc, setProcessedSrc] = useState<string | null>(null);
   const [loadFailed, setLoadFailed] = useState<boolean>(false);
+  const [triedFallback, setTriedFallback] = useState<boolean>(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   // When raw image changes, process white background into transparent character
@@ -96,6 +97,16 @@ export const MascotIllustration: React.FC<MascotProps> = ({
     }
   };
 
+  const handleImageError = () => {
+    if (!triedFallback && imgSrc.includes('1791989972558')) {
+      // Try older timestamp before failing
+      setTriedFallback(true);
+      setImgSrc('/grok_1791989973132.jpg');
+    } else {
+      setLoadFailed(true);
+    }
+  };
+
   return (
     <div
       className={`relative select-none flex items-center justify-center ${sizeClasses} ${className}`}
@@ -114,17 +125,15 @@ export const MascotIllustration: React.FC<MascotProps> = ({
         <div className="relative w-full flex items-center justify-center">
           <img
             src={processedSrc || imgSrc}
-            alt="SHADOW Mascot"
+            alt="SHADOW Mascot (Dark cat with supernatural glowing eyes)"
             className="w-full h-auto object-contain block drop-shadow-[0_8px_0px_rgba(0,0,0,0.85)] filter"
-            onError={() => {
-              setLoadFailed(true);
-            }}
+            onError={handleImageError}
           />
         </div>
       ) : (
         <div
           onClick={() => fileInputRef.current?.click()}
-          className="w-full p-4 rounded-2xl border-3 border-dashed border-black bg-white text-center cursor-pointer shadow-[4px_4px_0px_#000] flex flex-col items-center justify-center gap-2"
+          className="w-full p-4 rounded-2xl border-3 border-dashed border-black bg-white text-center cursor-pointer shadow-[4px_4px_0px_#000] flex flex-col items-center justify-center gap-2 hover:bg-[#FFF9F0] transition-colors"
         >
           <div className="w-10 h-10 rounded-xl bg-[#FFB52E] border-2 border-black flex items-center justify-center text-black shadow-[2px_2px_0px_#000]">
             <Upload className="w-5 h-5" />
@@ -133,8 +142,11 @@ export const MascotIllustration: React.FC<MascotProps> = ({
             <p className="font-heading font-black text-xs text-black uppercase">
               Load Mascot Image
             </p>
-            <p className="text-[10px] text-gray-600 font-mono">
-              Select grok_1791989973132.jpg
+            <p className="text-[10px] text-gray-700 font-mono font-bold">
+              grok_1791989972558.jpg
+            </p>
+            <p className="text-[9px] text-gray-500 mt-0.5">
+              Click to select or drop image
             </p>
           </div>
         </div>
