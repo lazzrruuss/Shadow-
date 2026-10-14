@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Copy, Check, ArrowUp } from 'lucide-react';
 import { playEyeChime } from '../utils/audio';
+import { EmbeddedMascotAvatar } from './EmbeddedMascot';
 
 interface FooterProps {
   contractAddress: string;
@@ -40,18 +41,8 @@ export const Footer: React.FC<FooterProps> = ({ contractAddress, telegramUrl }) 
           {/* Brand Info (col-span-5) */}
           <div className="md:col-span-5 flex flex-col items-start">
             <div className="flex items-center gap-2.5 mb-4">
-              <div className="w-10 h-10 rounded-full border-2 border-black bg-[#FFB52E] overflow-hidden shadow-[2px_2px_0px_#000] flex-shrink-0 flex items-center justify-center">
-                <img
-                  src="/grok_1791989972558.jpg"
-                  alt="SHADOW"
-                  className="w-full h-full object-cover"
-                  onError={(e) => {
-                    const target = e.target as HTMLImageElement;
-                    if (!target.src.includes('1791989973132')) {
-                      target.src = '/grok_1791989973132.jpg';
-                    }
-                  }}
-                />
+              <div className="w-10 h-10 rounded-full border-2 border-black bg-[#FFB52E] overflow-hidden shadow-[2px_2px_0px_#000] flex-shrink-0 flex items-center justify-center p-0.5">
+                <EmbeddedMascotAvatar size={34} />
               </div>
               <span className="font-heading text-3xl font-black text-[#FFB52E] tracking-wider drop-shadow-[2px_2px_0px_#000]">
                 SHADOW
