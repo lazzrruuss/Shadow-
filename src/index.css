@@ -1,0 +1,89 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --font-heading: 'Paytone One', 'Fredoka', 'Titan One', sans-serif;
+    --font-body: 'Fredoka', 'Plus Jakarta Sans', -apple-system, sans-serif;
+  }
+  
+  body {
+    font-family: var(--font-body);
+  }
+  
+  h1, h2, h3, h4, h5, h6, .font-heading {
+    font-family: var(--font-heading);
+    letter-spacing: 0.02em;
+  }
+}
+
+@keyframes eyeGlowPulse {
+  0%, 100% {
+    filter: drop-shadow(0 0 8px #FFB52E) drop-shadow(0 0 22px #FF622E);
+    opacity: 0.95;
+  }
+  50% {
+    filter: drop-shadow(0 0 14px #FFB52E) drop-shadow(0 0 36px #FF622E) drop-shadow(0 0 55px rgba(255, 98, 46, 0.7));
+    opacity: 1;
+  }
+}
+
+@keyframes floatMascot {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-8px) rotate(0.4deg);
+  }
+}
+
+@keyframes ambientFlicker {
+  0%, 100% {
+    opacity: 0.35;
+    transform: scale(1);
+  }
+  30% {
+    opacity: 0.42;
+    transform: scale(1.04);
+  }
+  70% {
+    opacity: 0.3;
+    transform: scale(0.97);
+  }
+}
+
+@keyframes subtleMist {
+  0% {
+    transform: translateX(-5%);
+  }
+  50% {
+    transform: translateX(5%);
+  }
+  100% {
+    transform: translateX(-5%);
+  }
+}
+
+.animate-eye-pulse {
+  animation: eyeGlowPulse 3.5s ease-in-out infinite;
+}
+
+.animate-float {
+  animation: floatMascot 6s ease-in-out infinite;
+}
+
+.animate-flicker {
+  animation: ambientFlicker 5s ease-in-out infinite;
+}
+
+.animate-mist {
+  animation: subtleMist 20s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-eye-pulse,
+  .animate-float,
+  .animate-flicker,
+  .animate-mist {
+    animation: none !important;
+  }
+}

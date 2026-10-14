@@ -1,0 +1,6 @@
+{
+  "name": "SHADOW — $SHADOW Meme Coin",
+  "description": "Official portal for $SHADOW. A mysterious dark cat with supernatural glowing eyes. Born in the dark. Powered by the internet. Follow the glowing eyes.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
